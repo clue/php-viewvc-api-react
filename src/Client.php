@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use Clue\React\Buzz\Browser;
 use Clue\React\Buzz\Message\Response;
 use React\Promise\Deferred;
+use Clue\React\ViewVcApi\Io\Parser;
 use Clue\React\ViewVcApi\Io\Loader;
 
 class Client
