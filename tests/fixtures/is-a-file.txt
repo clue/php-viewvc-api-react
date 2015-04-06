@@ -1,0 +1,5 @@
+Description:
+Accessing a file results in its log output 
+
+Obtained from:
+https://svn.apache.org/viewvc/jakarta/ecs/tags/V1_0/src/java/org/apache/ecs/AlignType.java?view=log&pathrev=1030540

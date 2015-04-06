@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!-- ViewVC :: http://www.viewvc.org/ -->
+<head>
+<title>ViewVC Exception</title>
+</head>
+<body>
+<h3>An Exception Has Occurred</h3>
+
+
+
+<h4>Python Traceback</h4>
+<p><pre>
+Traceback (most recent call last):
+  File &quot;/usr/local/viewvc-install/viewvc-trunk-r2530/lib/viewvc.py&quot;, line 4531, in main
+    request.run_viewvc()
+  File &quot;/usr/local/viewvc-install/viewvc-trunk-r2530/lib/viewvc.py&quot;, line 393, in run_viewvc
+    self.view_func(self)
+  File &quot;/usr/local/viewvc-install/viewvc-trunk-r2530/lib/viewvc.py&quot;, line 2677, in view_checkout
+    fp, revision = request.repos.openfile(path, rev)
+  File &quot;/usr/local/viewvc-install/viewvc-trunk-r2530/lib/vclib/svn/svn_repos.py&quot;, line 392, in openfile
+    raise vclib.Error(&quot;Path '%s' is not a file.&quot; % path)
+Error: Path 'jakarta/ecs/tags/V1_0/src/java/org/apache/ecs' is not a file.
+
+</pre></p>
+
+
+</body>
+</html>
