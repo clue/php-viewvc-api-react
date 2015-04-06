@@ -17,8 +17,7 @@
         "php": ">=5.3",
         "react/event-loop": "~0.4.0|~0.3.0",
         "clue/buzz-react": "~0.2.0",
-        "ext-simplexml": "*",
-        "ext-tidy": "*"
+        "ext-simplexml": "*"
     },
     "require-dev": {
         "clue/block-react": "~0.1.0"

@@ -13,11 +13,11 @@ class Loader
 
     public function loadXmlString($html)
     {
-        // clean up HTML to safe XML
-        $html = tidy_repair_string($html, array(
-            'output-xml' => true,
-            'input-xml'  => true,
-        ));
+        // fix invalid markup of help link in footer of outdated ViewVC versions
+        $html = str_replace('Help</strong></td>', 'Help</a></strong></td>', $html);
+
+        // replace unneeded HTML entities
+        $html = str_replace('&nbsp;', ' ', $html);
 
         // clean up namespace declaration
         $html = str_replace('xmlns="', 'ns="', $html);
