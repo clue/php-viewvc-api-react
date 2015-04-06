@@ -1,0 +1,6 @@
+Description:
+Accessing a directory shows a directory listing
+Paths always end with a slash and will redirect otherwise
+
+Source:
+https://svn.apache.org/viewvc/jakarta/ecs/tags/RELEASE_1_4/xdocs/

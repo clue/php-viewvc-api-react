@@ -1,0 +1,7 @@
+Description:
+Trying to download a directory results in this error page.
+status returns 200 OK, but displays an error message anyways.
+this also ignores the `content-type=text/plain` parameter and does not send an `etag` header.
+
+Source:
+https://svn.apache.org/viewvc/jakarta/ecs/tags/V1_0/src/java/org/apache/ecs/?revision=168703&view=co&pathrev=1030540&content-type=text/plain

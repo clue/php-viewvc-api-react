@@ -1,10 +1,12 @@
 <?php
 
-namespace Clue\React\ViewVcApi;
+namespace Clue\React\ViewVcApi\Io;
+
+use SimpleXMLElement;
 
 class Parser
 {
-    public function parseDirectoryListing($xml)
+    public function parseDirectoryListing(SimpleXMLElement $xml)
     {
         $files = array();
 
@@ -24,7 +26,7 @@ class Parser
         return $files;
     }
 
-    public function parseLogRevisions($xml)
+    public function parseLogRevisions(SimpleXMLElement $xml)
     {
         $revisions = array();
 
