@@ -14,7 +14,7 @@ class FunctionalClientTest extends TestCase
 
     public function setUp()
     {
-        $url = 'https://svn.apache.org/viewvc/';
+        $url = 'http://svn.apache.org/viewvc/';
 
         $this->loop = LoopFactory::create();
         $this->blocker = new Blocker($this->loop);
