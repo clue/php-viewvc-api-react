@@ -1,0 +1,26 @@
+{
+    "name": "clue/viewvc-api-react",
+    "description": "Simple, async access to ViewVC web interface (Subversion/CVS browser)",
+    "keywords": ["ViewVC", "Subversion", "CVS", "ReactPHP", "async"],
+    "homepage": "https://github.com/clue/php-viewvc-api-react",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Lück",
+            "email": "christian@lueck.tv"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Clue\\React\\ViewVcApi\\": "src/" }
+    },
+    "require": {
+        "php": ">=5.3",
+        "react/event-loop": "~0.4.0|~0.3.0",
+        "clue/buzz-react": "~0.2.0",
+        "ext-simplexml": "*",
+        "ext-tidy": "*"
+    },
+    "require-dev": {
+        "clue/block-react": "~0.1.0"
+    }
+}
