@@ -9,16 +9,20 @@ use InvalidArgumentException;
 use Clue\React\Buzz\Browser;
 use Clue\React\Buzz\Message\Response;
 use React\Promise\Deferred;
+use Clue\React\ViewVcApi\Io\Loader;
 
 class Client
 {
     private $url;
     private $brower;
 
-    public function __construct($url, Browser $browser, Parser $parser = null)
+    public function __construct($url, Browser $browser, Parser $parser = null, Loader $loader = null)
     {
         if ($parser === null) {
             $parser = new Parser();
+        }
+        if ($loader === null) {
+            $loader = new Loader();
         }
 
         // TODO: do not follow redirects
@@ -29,6 +33,7 @@ class Client
         $this->url = $url;
         $this->browser = $browser;
         $this->parser = $parser;
+        $this->loader = $loader;
     }
 
     public function fetchFile($path, $revision = null)
@@ -105,18 +110,7 @@ class Client
 
     private function fetchXml($url)
     {
-        return $this->fetch($url)->then(function ($html) {
-            // clean up HTML to safe XML
-            $html = tidy_repair_string($html, array(
-                'output-xml' => true,
-                'input-xml'  => true,
-            ));
-
-            // clean up namespace declaration
-            $html = str_replace('xmlns=', 'ns=', $html);
-
-            return new SimpleXMLElement($html);
-        });
+        return $this->fetch($url)->then(array($this->loader, 'loadXmlString'));
     }
 
     private function fetch($url)
