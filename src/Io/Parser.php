@@ -41,14 +41,7 @@ class Parser
             }
 
             // href contains r1 and r2 as query parameters
-            $href = (string)$anchor['href'];
-            $pos = strpos($href, '?');
-            if ($pos === false) {
-                continue;
-            }
-
-            $args = array();
-            parse_str(substr($href, $pos + 1), $args);
+            $args = $this->linkParameters((string)$anchor['href']);
 
             // all links containing r2 are links to previous revision
             if (isset($args['r2'])) {
@@ -57,5 +50,17 @@ class Parser
         }
 
         return $revisions;
+    }
+
+    private function linkParameters($href)
+    {
+        $args = array();
+        $pos = strpos($href, '?');
+
+        if ($pos !== false) {
+            parse_str(substr($href, $pos + 1), $args);
+        }
+
+        return $args;
     }
 }
