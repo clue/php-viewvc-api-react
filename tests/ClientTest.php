@@ -48,4 +48,13 @@ class ClientTest extends TestCase
 
         $this->expectPromiseReject($promise);
     }
+
+    public function testFetchFileRevision()
+    {
+        $this->browser->expects($this->once())->method('get')->with($this->equalTo('http://viewvc.example.org/README.md?view=co&pathrev=1.0'))->will($this->returnValue($this->createPromiseRejected()));
+
+        $promise = $this->client->fetchFile('/README.md', '1.0');
+
+        $this->expectPromiseReject($promise);
+    }
 }
