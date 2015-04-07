@@ -26,8 +26,13 @@ class Loader
 
     public function loadXmlString($html)
     {
-        // fix invalid markup of help link in footer of outdated ViewVC versions
+        // fix invalid markup of outdated ViewVC versions
+        // - help link in footer not terminated
+        // - selected branch/tag in CVS "sticky tag" dropdown has not attribute value
+        // - clear button for selected branch/tag has no trailing slash
         $html = str_replace('Help</strong></td>', 'Help</a></strong></td>', $html);
+        $html = str_replace('selected>', 'selected="selected">', $html);
+        $html = preg_replace('#<input([^\/]+)>#', '<input$1 />', $html);
 
         // replace named HTML entities with their UTF-8 value
         $html = str_replace(array_values($this->entities), array_keys($this->entities), $html);
