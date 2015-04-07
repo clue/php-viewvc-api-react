@@ -8,6 +8,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $url = 'https://svn.apache.org/viewvc/';
 $path = isset($argv[1]) ? $argv[1] : '/';
+$revision = isset($argv[2]) ? $argv[2] : null;
 
 $loop = LoopFactory::create();
 
@@ -27,6 +28,10 @@ $browser = new Browser($loop, $sender);
 
 $client = new Client($url, $browser);
 
-$client->fetchDirectory($path)->then('var_dump', 'var_dump');
+if (substr($path, -1) === '/') {
+    $client->fetchDirectory($path, $revision)->then('var_dump', 'printf');
+} else {
+    $client->fetchFile($path, $revision)->then('printf', 'printf');
+}
 
 $loop->run();
