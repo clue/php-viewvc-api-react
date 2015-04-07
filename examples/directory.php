@@ -28,6 +28,10 @@ $browser = new Browser($loop, $sender);
 
 $client = new Client($url, $browser);
 
-$client->fetchDirectory($path, $revision)->then('var_dump', 'var_dump');
+if (substr($path, -1) === '/') {
+    $client->fetchDirectory($path, $revision)->then('var_dump', 'printf');
+} else {
+    $client->fetchFile($path, $revision)->then('printf', 'printf');
+}
 
 $loop->run();
