@@ -29,4 +29,29 @@ class LoaderTest extends TestCase
             scandir(__DIR__ . '/../fixtures/')
         ));
     }
+
+    public function testHtmlEntities()
+    {
+        $str = '<p>&auml;&hellip;&nbsp;&copy;</p>';
+        $xml = $this->loader->loadXmlString($str);
+
+        // c3 a4 e2 80 a6 c2 a0 c2 a9
+        $this->assertEquals('ä… ©', (string)$xml);
+    }
+
+    public function testLoadInvalidMarkupInputNotClosed()
+    {
+        $str = '<input type="hidden">';
+        $xml = $this->loader->loadXmlString($str);
+
+        $this->assertEquals('hidden', (string)$xml['type']);
+    }
+
+    public function testLoadInvalidMarkupSelectedAttributeNoValue()
+    {
+        $str = '<option selected>this</option>';
+        $xml = $this->loader->loadXmlString($str);
+
+        $this->assertEquals('selected', (string)$xml['selected']);
+    }
 }
