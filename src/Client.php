@@ -31,7 +31,7 @@ class Client
 //             'follow_redirects' => false
 //         ));
 
-        $this->url = $url;
+        $this->url = rtrim($url, '/') . '/';
         $this->browser = $browser;
         $this->parser = $parser;
         $this->loader = $loader;
@@ -116,7 +116,7 @@ class Client
 
     private function fetch($url)
     {
-        return $this->browser->get($this->url . $url)->then(
+        return $this->browser->get($this->url . ltrim($url, '/'))->then(
             function (Response $response) {
                 return (string)$response->getBody();
             },
