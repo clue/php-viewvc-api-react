@@ -57,4 +57,22 @@ class ClientTest extends TestCase
 
         $this->expectPromiseReject($promise);
     }
+
+    public function testFetchDirectoryRevision()
+    {
+        $this->browser->expects($this->once())->method('get')->with($this->equalTo('http://viewvc.example.org/directory/?pathrev=1.0'))->will($this->returnValue($this->createPromiseRejected()));
+
+        $promise = $this->client->fetchDirectory('/directory/', '1.0');
+
+        $this->expectPromiseReject($promise);
+    }
+
+    public function testFetchPatch()
+    {
+        $this->browser->expects($this->once())->method('get')->with($this->equalTo('http://viewvc.example.org/README.md?view=patch&r1=1.0&r2=1.1'))->will($this->returnValue($this->createPromiseRejected()));
+
+        $promise = $this->client->fetchPatch('/README.md', '1.0', '1.1');
+
+        $this->expectPromiseReject($promise);
+    }
 }
