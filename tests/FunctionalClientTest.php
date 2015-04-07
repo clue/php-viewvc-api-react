@@ -44,6 +44,17 @@ class FunctionalClientTest extends TestCase
         $this->assertStringStartsWith('/*', $recipe);
     }
 
+    public function testFetchFileOldFileNowDeletedButRevisionAvailable()
+    {
+        $file = 'commons/STATUS';
+        $revision = '1';
+
+        $promise = $this->viewvc->fetchFile($file, $revision);
+        $contents = $this->waitFor($promise);
+
+        $this->assertStringStartsWith('APACHE COMMONS', $contents);
+    }
+
     /**
      * @expectedException RuntimeException
      */

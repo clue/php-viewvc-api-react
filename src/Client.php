@@ -45,7 +45,7 @@ class Client
 
         $url = $path . '?view=co';
         if ($revision !== null) {
-            $url .= '&revision=' . $revision;
+            $url .= '&pathrev=' . $revision;
         }
 
         // TODO: fetching a directory redirects to path with trailing slash
