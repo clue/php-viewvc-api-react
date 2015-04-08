@@ -47,6 +47,12 @@ class LoaderTest extends TestCase
         $this->assertEquals('hidden', (string)$xml['type']);
     }
 
+    public function testPrepareInvalidMarkupBrNotClosed()
+    {
+        $html = '<br>';
+        $xml = $this->loader->loadXmlString($html);
+    }
+
     public function testLoadInvalidMarkupSelectedAttributeNoValue()
     {
         $str = '<option selected>this</option>';
