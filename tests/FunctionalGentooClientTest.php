@@ -14,6 +14,10 @@ class FunctionalGentooClientTest extends TestCase
 
     public function setUp()
     {
+        if (!function_exists('stream_socket_enable_crypto')) {
+            $this->markTestSkipped('TLS (HTTPS) not supported by your platform (HHVM?)');
+        }
+
         $url = 'https://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo/';
 
         $this->loop = LoopFactory::create();
