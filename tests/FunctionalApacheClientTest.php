@@ -6,7 +6,7 @@ use Clue\React\Buzz\Browser;
 use React\Promise\PromiseInterface;
 use Clue\React\Block\Blocker;
 
-class FunctionalClientTest extends TestCase
+class FunctionalApacheClientTest extends TestCase
 {
     private $loop;
     private $viewvc;

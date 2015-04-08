@@ -56,7 +56,7 @@ class Client
         return $this->fetch($url);
     }
 
-    public function fetchDirectory($path, $revision = null)
+    public function fetchDirectory($path, $revision = null, $showAttic = false)
     {
         if (substr($path, -1) !== '/') {
             return $this->reject(new InvalidArgumentException('Directory path MUST end with trailing slash'));
@@ -66,6 +66,11 @@ class Client
 
         if ($revision !== null) {
             $url .= '?pathrev=' . $revision;
+        }
+
+        if ($showAttic) {
+            $url .= (strpos($url, '?') === false) ? '?' : '&';
+            $url .= 'hideattic=0';
         }
 
         // TODO: path MUST end with trailing slash
