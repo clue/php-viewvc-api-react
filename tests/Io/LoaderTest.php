@@ -60,4 +60,13 @@ class LoaderTest extends TestCase
 
         $this->assertEquals('selected', (string)$xml['selected']);
     }
+
+    public function testLoadRemovedNavHeader()
+    {
+        $str = '<body><div class="vc_navheader"> invalid <asd> </okay> </div> </body>';
+        $xml = $this->loader->loadXmlString($str);
+
+        $this->assertFalse(isset($xml->div));
+        $this->assertEquals(0, count($xml));
+    }
 }
