@@ -1,0 +1,5 @@
+Description:
+Another CVS log that includes a deleted file
+
+Source:
+https://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-projects/www-redesign/www/index.html?hideattic=1&view=log

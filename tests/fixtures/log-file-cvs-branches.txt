@@ -1,0 +1,5 @@
+Description:
+Another log file view, includes some tags, branches and vendor branches
+
+Obtained from:
+http://www.bioinformatics.org/cgi-bin/viewvc.cgi/flash/GMS.swf?view=log
