@@ -26,6 +26,9 @@ class Loader
 
     public function loadXmlString($html)
     {
+        // log output often uses garbled ISO-8859-1 and UTF-8 encodings
+        $html = \ForceUTF8\Encoding::toUTF8($html);
+
         // fix invalid markup of outdated ViewVC versions
         // - help link in footer not terminated
         // - selected branch/tag in CVS "sticky tag" dropdown has not attribute value
