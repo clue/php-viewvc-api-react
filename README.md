@@ -54,13 +54,16 @@ ViewVC web interface.
 $client->fetchDirectory($path, $revision = null);
 $client->fetchFile($path, $revision = null);
 $client->fetchPatch($path, $r1, $r2);
+$client->fetchLog($path, $revision = null);
 
 // many more…
 ```
 
+All actions support async operation by returning [promises](#promises).
+
 Listing all available actions is out of scope here, please refer to the [class outline](src/Client.php).
 
-#### Processing
+#### Promises
 
 Sending requests is async (non-blocking), so you can actually send multiple requests in parallel.
 ViewVC will respond to each request with a response message, the order is not guaranteed.
@@ -76,6 +79,35 @@ $client->fetchFile($path)->then(
     }
 });
 ```
+
+If this looks strange to you, you can also use the more traditional [blocking API](#blocking).
+
+#### Blocking
+
+As stated above, this library provides you a powerful, async API by default.
+
+If, however, you want to integrate this into your traditional, blocking environment,
+you should look into also using [clue/block-react](https://github.com/clue/php-block-react).
+
+The resulting blocking code could look something like this:
+
+```php
+$loop = React\EventLoop\Factory::create();
+$browser = new Clue\React\Buzz\Browser($loop);
+$blocker = new Clue\React\Block\Blocker($loop);
+
+$client = new Client($url /* change me */, $browser);
+$promise = $client->fetchFile($path /* change me */);
+
+try {
+    $contents = $blocker->awaitOne($promise);
+    // file contents received
+} catch (Exception $e) {
+    // an error occured while executing the request
+}
+```
+
+Refer to [clue/block-react](https://github.com/clue/php-block-react#readme) for more details.
 
 ## Install
 
