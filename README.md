@@ -2,8 +2,6 @@
 
 Simple, async API-like access to your [ViewVC](http://viewvc.org/) web interface (Subversion/CVS browser), built on top of [React PHP](http://reactphp.org/).
 
-> Note: This project is in beta stage! Feel free to report any issues you encounter.
-
 ## Quickstart example
 
 Once [installed](#install), you can use the following code to fetch a directory
@@ -116,7 +114,7 @@ The recommended way to install this library is [through composer](http://getcomp
 ```JSON
 {
     "require": {
-        "clue/viewvc-api-react": "~0.1.0"
+        "clue/viewvc-api-react": "~0.2.0"
     }
 }
 ```

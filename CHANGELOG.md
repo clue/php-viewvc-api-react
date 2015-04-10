@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.2.0 (2015-04-10)
+
+* Feature: Add `Client::fetchLog()` method
+  ([#14](https://github.com/clue/php-viewvc-api-react/pull/14))
+
+* Feature: Support including deleted files (attic) in CVS directory listings
+  ([#11](https://github.com/clue/php-viewvc-api-react/pull/11))
+
+* Feature: Support mixed UTF-8 and ISO-8859-1 (Latin1) encodings
+  ([#12](https://github.com/clue/php-viewvc-api-react/pull/12))
+
+* Fix: Improve parsing broken XHTML structure
+  ([#10](https://github.com/clue/php-viewvc-api-react/pull/10), [#13](https://github.com/clue/php-viewvc-api-react/pull/13))
+
 ## 0.1.1 (2015-04-07)
 
 * Fix: Accessing deleted files in older revisions now works
