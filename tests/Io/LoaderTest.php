@@ -39,6 +39,15 @@ class LoaderTest extends TestCase
         $this->assertEquals('ä… ©', (string)$xml);
     }
 
+    public function testMixedEncodings()
+    {
+        // mixed UTF-8 and ISO-8859-1
+        $str = "<p>ä and \xFC</p>";
+        $xml = $this->loader->loadXmlString($str);
+
+        $this->assertEquals('ä and ü', (string)$xml);
+    }
+
     public function testLoadInvalidMarkupInputNotClosed()
     {
         $str = '<input type="hidden">';
