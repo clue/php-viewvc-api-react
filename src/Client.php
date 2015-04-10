@@ -91,6 +91,20 @@ class Client
         return $this->fetch($url);
     }
 
+    public function fetchLog($path, $revision = null)
+    {
+        $url = $path . '?view=log';
+
+        // TODO: invalid revision shows error page, but HTTP 200 OK
+
+        if ($revision !== null) {
+            $url .= (strpos($url, '?') === false) ? '?' : '&';
+            $url .= 'pathrev=' . $revision;
+        }
+
+        return $this->fetchXml($url)->then(array($this->parser, 'parseLogEntries'));
+    }
+
     public function fetchRevisionPrevious($path, $revision)
     {
         return $this->fetchAllPreviousRevisions($path)->then(function ($revisions) use ($revision) {
