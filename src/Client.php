@@ -8,7 +8,7 @@ use SimpleXMLElement;
 use InvalidArgumentException;
 use Clue\React\Buzz\Browser;
 use Clue\React\Buzz\Message\Response;
-use React\Promise\Deferred;
+use React\Promise;
 use Clue\React\ViewVcApi\Io\Parser;
 use Clue\React\ViewVcApi\Io\Loader;
 
@@ -40,7 +40,7 @@ class Client
     public function fetchFile($path, $revision = null)
     {
         if (substr($path, -1) === '/') {
-            return $this->reject(new InvalidArgumentException('File path MUST NOT end with trailing slash'));
+            return Promise\reject(new InvalidArgumentException('File path MUST NOT end with trailing slash'));
         }
 
         $url = $path . '?view=co';
@@ -59,7 +59,7 @@ class Client
     public function fetchDirectory($path, $revision = null, $showAttic = false)
     {
         if (substr($path, -1) !== '/') {
-            return $this->reject(new InvalidArgumentException('Directory path MUST end with trailing slash'));
+            return Promise\reject(new InvalidArgumentException('Directory path MUST end with trailing slash'));
         }
 
         $url = $path;
@@ -143,13 +143,5 @@ class Client
                 throw new RuntimeException('Unable to fetch from ViewVC', 0, $error);
             }
         );
-    }
-
-    private function reject($with)
-    {
-        $deferred = new Deferred();
-        $deferred->reject($with);
-
-        return $deferred->promise();
     }
 }
