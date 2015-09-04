@@ -4,20 +4,18 @@ use Clue\React\ViewVcApi\Client;
 use React\EventLoop\Factory as LoopFactory;
 use Clue\React\Buzz\Browser;
 use React\Promise\PromiseInterface;
-use Clue\React\Block\Blocker;
+use Clue\React\Block;
 
 class FunctionalApacheClientTest extends TestCase
 {
     private $loop;
     private $viewvc;
-    private $blocker;
 
     public function setUp()
     {
         $url = 'http://svn.apache.org/viewvc/';
 
         $this->loop = LoopFactory::create();
-        $this->blocker = new Blocker($this->loop);
         $browser = new Browser($this->loop);
 
         $this->viewvc = new Client($url, $browser);
@@ -28,7 +26,7 @@ class FunctionalApacheClientTest extends TestCase
         $path = 'jakarta/ecs/';
 
         $promise = $this->viewvc->fetchDirectory($path);
-        $files = $this->waitFor($promise);
+        $files = Block\await($promise, $this->loop);
 
         $this->assertEquals(array('branches/', 'tags/', 'trunk/'), $files);
     }
@@ -39,7 +37,7 @@ class FunctionalApacheClientTest extends TestCase
         $revision = '168703';
 
         $promise = $this->viewvc->fetchFile($file, $revision);
-        $recipe = $this->waitFor($promise);
+        $recipe = Block\await($promise, $this->loop);
 
         $this->assertStringStartsWith('/*', $recipe);
     }
@@ -50,7 +48,7 @@ class FunctionalApacheClientTest extends TestCase
         $revision = '1';
 
         $promise = $this->viewvc->fetchFile($file, $revision);
-        $contents = $this->waitFor($promise);
+        $contents = Block\await($promise, $this->loop);
 
         $this->assertStringStartsWith('APACHE COMMONS', $contents);
     }
@@ -64,7 +62,7 @@ class FunctionalApacheClientTest extends TestCase
         $revision = '123';
 
         $promise = $this->viewvc->fetchFile($file, $revision);
-        $this->waitFor($promise);
+        Block\await($promise, $this->loop);
     }
 
     public function testFetchRevisionPrevious()
@@ -73,7 +71,7 @@ class FunctionalApacheClientTest extends TestCase
         $revision = '168703';
 
         $promise = $this->viewvc->fetchRevisionPrevious($file, $revision);
-        $revision = $this->waitFor($promise);
+        $revision = Block\await($promise, $this->loop);
 
         $this->assertEquals('168695', $revision);
     }
@@ -87,11 +85,6 @@ class FunctionalApacheClientTest extends TestCase
         $revision = 'xyz';
 
         $promise = $this->viewvc->fetchRevisionPrevious($file, $revision);
-        $this->waitFor($promise);
-    }
-
-    private function waitFor(PromiseInterface $promise)
-    {
-        return $this->blocker->awaitOne($promise);
+        Block\await($promise, $this->loop);
     }
 }

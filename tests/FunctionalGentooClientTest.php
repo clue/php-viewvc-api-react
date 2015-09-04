@@ -4,13 +4,12 @@ use Clue\React\ViewVcApi\Client;
 use React\EventLoop\Factory as LoopFactory;
 use Clue\React\Buzz\Browser;
 use React\Promise\PromiseInterface;
-use Clue\React\Block\Blocker;
+use Clue\React\Block;
 
 class FunctionalGentooClientTest extends TestCase
 {
     private $loop;
     private $viewvc;
-    private $blocker;
 
     public function setUp()
     {
@@ -21,14 +20,13 @@ class FunctionalGentooClientTest extends TestCase
         $url = 'https://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo/';
 
         $this->loop = LoopFactory::create();
-        $this->blocker = new Blocker($this->loop);
         $browser = new Browser($this->loop);
 
         // check connectivity to given URL only once
         static $checked = null;
         if ($checked === null) {
             try {
-                $this->waitFor($browser->head($url));
+                Block\await($browser->head($url), $this->loop);
                 $checked = true;
             } catch (Exception $e) {
                 $checked = false;
@@ -47,7 +45,7 @@ class FunctionalGentooClientTest extends TestCase
         $path = '/';
 
         $promise = $this->viewvc->fetchDirectory($path, null, true);
-        $files = $this->waitFor($promise);
+        $files = Block\await($promise, $this->loop);
 
         $this->assertEquals(array('misc/', 'src/', 'users/', 'xml/', '.frozen'), $files);
     }
@@ -57,13 +55,8 @@ class FunctionalGentooClientTest extends TestCase
         $file = '.frozen';
 
         $promise = $this->viewvc->fetchFile($file);
-        $contents = $this->waitFor($promise);
+        $contents = Block\await($promise, $this->loop);
 
         $this->assertEquals("robbat2\n", $contents);
-    }
-
-    private function waitFor(PromiseInterface $promise)
-    {
-        return $this->blocker->awaitOne($promise);
     }
 }

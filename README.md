@@ -90,15 +90,16 @@ you should look into also using [clue/block-react](https://github.com/clue/php-b
 The resulting blocking code could look something like this:
 
 ```php
+use Clue\React\Block;
+
 $loop = React\EventLoop\Factory::create();
 $browser = new Clue\React\Buzz\Browser($loop);
-$blocker = new Clue\React\Block\Blocker($loop);
 
 $client = new Client($url /* change me */, $browser);
 $promise = $client->fetchFile($path /* change me */);
 
 try {
-    $contents = $blocker->awaitOne($promise);
+    $contents = Block\await($promise, $loop);
     // file contents received
 } catch (Exception $e) {
     // an error occured while executing the request

@@ -21,6 +21,6 @@
         "neitanod/forceutf8": "~1.4"
     },
     "require-dev": {
-        "clue/block-react": "~0.1.0"
+        "clue/block-react": "~0.3.0"
     }
 }
