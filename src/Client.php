@@ -14,10 +14,9 @@ use Clue\React\ViewVcApi\Io\Loader;
 
 class Client
 {
-    private $url;
     private $brower;
 
-    public function __construct($url, Browser $browser, Parser $parser = null, Loader $loader = null)
+    public function __construct(Browser $browser, Parser $parser = null, Loader $loader = null)
     {
         if ($parser === null) {
             $parser = new Parser();
@@ -31,7 +30,6 @@ class Client
 //             'follow_redirects' => false
 //         ));
 
-        $this->url = rtrim($url, '/') . '/';
         $this->browser = $browser;
         $this->parser = $parser;
         $this->loader = $loader;
@@ -135,7 +133,7 @@ class Client
 
     private function fetch($url)
     {
-        return $this->browser->get($this->url . ltrim($url, '/'))->then(
+        return $this->browser->get(ltrim($url, '/'))->then(
             function (Response $response) {
                 return (string)$response->getBody();
             },
