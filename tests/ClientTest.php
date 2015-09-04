@@ -31,7 +31,7 @@ class ClientTest extends TestCase
 
     public function testFetchFile()
     {
-        $response = new Response('HTTP/1.0', 200, 'OK', null, new Body('# hello'));
+        $response = new Response('HTTP/1.0', 200, 'OK', array(), new Body('# hello'));
         $this->browser->expects($this->once())->method('get')->with($this->equalTo('http://viewvc.example.org/README.md?view=co'))->will($this->returnValue($this->createPromiseResolved($response)));
 
         $promise = $this->client->fetchFile('README.md');
