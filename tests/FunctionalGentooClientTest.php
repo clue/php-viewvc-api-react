@@ -3,7 +3,6 @@
 use Clue\React\ViewVcApi\Client;
 use React\EventLoop\Factory as LoopFactory;
 use Clue\React\Buzz\Browser;
-use React\Promise\PromiseInterface;
 use Clue\React\Block;
 
 class FunctionalGentooClientTest extends TestCase
