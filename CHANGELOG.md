@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.0 (2015-09-04)
+
+* Feature / BC break: Build properly escaped URIs via Browser
+  ([#17](https://github.com/clue/php-viewvc-api-react/pull/17))
+
+  ```php
+// old
+$client = new Client($uri, $browser);
+
+// new
+$client = new Client($browser->withBase($uri));
+```
+
+* Update dependencies, more SOLID code base
+
 ## 0.2.0 (2015-04-10)
 
 * Feature: Add `Client::fetchLog()` method
