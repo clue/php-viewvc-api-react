@@ -10,7 +10,7 @@ listing from the given ViewVC URL:
 ```php
 $loop = React\EventLoop\Factory::create();
 $browser = new Clue\React\Buzz\Browser($loop);
-$client = new Client('http://example.com/viewvc/', $browser);
+$client = new Client($browser->withBase('http://example.com/viewvc/'));
 
 $client->fetchDirectory('/')->then(function ($files) {
     echo 'Files: ' . implode(', ', $files) . PHP_EOL;
@@ -34,8 +34,11 @@ in order to handle async requests:
 $loop = React\EventLoop\Factory::create();
 $browser = new Clue\React\Buzz\Browser($loop);
 
-$client = new Client($url, $browser);
+$client = new Client($browser->withBase('http://example.com/viewvc/'));
 ```
+
+The `Client` API uses relative URIs to reference files and directories in your
+ViewVC installation, so make sure to apply the base URI as depicted above.
 
 If you need custom DNS or proxy settings, you can explicitly pass a
 custom [`Browser`](https://github.com/clue/php-buzz-react#browser) instance.
@@ -95,7 +98,7 @@ use Clue\React\Block;
 $loop = React\EventLoop\Factory::create();
 $browser = new Clue\React\Buzz\Browser($loop);
 
-$client = new Client($url /* change me */, $browser);
+$client = new Client($browser->withBase($uri /* change me */));
 $promise = $client->fetchFile($path /* change me */);
 
 try {

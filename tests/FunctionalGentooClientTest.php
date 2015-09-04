@@ -36,7 +36,7 @@ class FunctionalGentooClientTest extends TestCase
             $this->markTestSkipped('Unable to reach Gentoo ViewVC');
         }
 
-        $this->viewvc = new Client($url, $browser);
+        $this->viewvc = new Client($browser->withBase($url));
     }
 
     public function testFetchDirectoryAttic()

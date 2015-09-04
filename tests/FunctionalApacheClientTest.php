@@ -17,7 +17,7 @@ class FunctionalApacheClientTest extends TestCase
         $this->loop = LoopFactory::create();
         $browser = new Browser($this->loop);
 
-        $this->viewvc = new Client($url, $browser);
+        $this->viewvc = new Client($browser->withBase($url));
     }
 
     public function testFetchDirectory()
