@@ -48,9 +48,9 @@ class Client
 
         return $this->fetch(
             $this->browser->resolve(
-                '/{+path}?view=co{&pathrev}',
+                '{+path}?view=co{&pathrev}',
                 array(
-                    'path' => ltrim($path, '/'),
+                    'path' => $path,
                     'pathrev' => $revision
                 )
             )
@@ -68,9 +68,9 @@ class Client
 
         return $this->fetchXml(
             $this->browser->resolve(
-                '/{+path}{?pathrev,hideattic}',
+                '{+path}{?pathrev,hideattic}',
                 array(
-                    'path' => ltrim($path, '/'),
+                    'path' => $path,
                     'pathrev' => $revision,
                     'hideattic' => $showAttic ? '0' : null
                 )
@@ -87,9 +87,9 @@ class Client
     {
         return $this->fetch(
             $this->browser->resolve(
-                '/{+path}?view=patch{&r1,r2}',
+                '{+path}?view=patch{&r1,r2}',
                 array(
-                    'path' => ltrim($path, '/'),
+                    'path' => $path,
                     'r1' => $r1,
                     'r2' => $r2
                 )
@@ -103,9 +103,9 @@ class Client
 
         return $this->fetchXml(
             $this->browser->resolve(
-                '/{+path}?view=log{&pathrev}',
+                '{+path}?view=log{&pathrev}',
                 array(
-                    'path' => ltrim($path, '/'),
+                    'path' => $path,
                     'pathrev' => $revision
                 )
             )
@@ -132,9 +132,9 @@ class Client
     {
         return $this->fetchXml(
             $this->browser->resolve(
-                '/{+path}?view=log',
+                '{+path}?view=log',
                 array(
-                    'path' => ltrim($path, '/')
+                    'path' => $path
                 )
             )
         );
