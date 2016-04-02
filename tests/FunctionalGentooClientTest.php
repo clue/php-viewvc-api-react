@@ -4,6 +4,7 @@ use Clue\React\ViewVcApi\Client;
 use React\EventLoop\Factory as LoopFactory;
 use Clue\React\Buzz\Browser;
 use Clue\React\Block;
+use Clue\React\Buzz\Message\ResponseException;
 
 class FunctionalGentooClientTest extends TestCase
 {
@@ -22,18 +23,18 @@ class FunctionalGentooClientTest extends TestCase
         $browser = new Browser($this->loop);
 
         // check connectivity to given URL only once
-        static $checked = null;
-        if ($checked === null) {
+        static $error = null;
+        if ($error === null) {
             try {
-                Block\await($browser->head($url), $this->loop);
-                $checked = true;
+                Block\await($browser->get($url), $this->loop);
+                $error = false;
             } catch (Exception $e) {
-                $checked = false;
+                $error = $e->getMessage();
             }
         }
 
-        if (!$checked) {
-            $this->markTestSkipped('Unable to reach Gentoo ViewVC');
+        if ($error !== false) {
+            $this->markTestSkipped('Unable to reach Gentoo ViewVC: ' . $error);
         }
 
         $this->viewvc = new Client($browser->withBase($url));

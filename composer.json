@@ -17,9 +17,10 @@
         "php": ">=5.3",
         "react/event-loop": "~0.4.0|~0.3.0",
         "react/promise": "~2.1|~1.1",
-        "clue/buzz-react": "~0.4.1",
+        "clue/buzz-react": "^0.5",
         "ext-simplexml": "*",
-        "neitanod/forceutf8": "~1.4"
+        "neitanod/forceutf8": "~1.4",
+        "rize/uri-template": "^0.3"
     },
     "require-dev": {
         "clue/block-react": "~0.3.0"

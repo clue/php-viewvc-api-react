@@ -7,22 +7,29 @@ use UnderflowException;
 use SimpleXMLElement;
 use InvalidArgumentException;
 use Clue\React\Buzz\Browser;
-use Clue\React\Buzz\Message\Response;
+use Psr\Http\Message\ResponseInterface;
 use React\Promise;
 use Clue\React\ViewVcApi\Io\Parser;
 use Clue\React\ViewVcApi\Io\Loader;
+use Rize\UriTemplate;
 
 class Client
 {
     private $brower;
+    private $parser;
+    private $loader;
+    private $uri;
 
-    public function __construct(Browser $browser, Parser $parser = null, Loader $loader = null)
+    public function __construct(Browser $browser, Parser $parser = null, Loader $loader = null, UriTemplate $uri = null)
     {
         if ($parser === null) {
             $parser = new Parser();
         }
         if ($loader === null) {
             $loader = new Loader();
+        }
+        if ($uri === null) {
+            $uri = new UriTemplate();
         }
 
         // TODO: do not follow redirects
@@ -33,6 +40,7 @@ class Client
         $this->browser = $browser;
         $this->parser = $parser;
         $this->loader = $loader;
+        $this->uri = $uri;
     }
 
     public function fetchFile($path, $revision = null)
@@ -47,7 +55,7 @@ class Client
         // TODO: reject all paths with trailing slashes
 
         return $this->fetch(
-            $this->browser->resolve(
+            $this->uri->expand(
                 '{+path}?view=co{&pathrev}',
                 array(
                     'path' => $path,
@@ -67,7 +75,7 @@ class Client
         // TODO: accessing files will redirect to file with relative location URL (not supported by clue/buzz-react)
 
         return $this->fetchXml(
-            $this->browser->resolve(
+            $this->uri->expand(
                 '{+path}{?pathrev,hideattic}',
                 array(
                     'path' => $path,
@@ -86,7 +94,7 @@ class Client
     public function fetchPatch($path, $r1, $r2)
     {
         return $this->fetch(
-            $this->browser->resolve(
+            $this->uri->expand(
                 '{+path}?view=patch{&r1,r2}',
                 array(
                     'path' => $path,
@@ -102,7 +110,7 @@ class Client
         // TODO: invalid revision shows error page, but HTTP 200 OK
 
         return $this->fetchXml(
-            $this->browser->resolve(
+            $this->uri->expand(
                 '{+path}?view=log{&pathrev}',
                 array(
                     'path' => $path,
@@ -131,7 +139,7 @@ class Client
     private function fetchLogXml($path)
     {
         return $this->fetchXml(
-            $this->browser->resolve(
+            $this->uri->expand(
                 '{+path}?view=log',
                 array(
                     'path' => $path
@@ -148,7 +156,7 @@ class Client
     private function fetch($url)
     {
         return $this->browser->get($url)->then(
-            function (Response $response) {
+            function (ResponseInterface $response) {
                 return (string)$response->getBody();
             },
             function ($error) {
