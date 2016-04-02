@@ -1,11 +1,10 @@
 <?php
 
 use Clue\React\ViewVcApi\Client;
-use Clue\React\Buzz\Message\Response;
-use Clue\React\Buzz\Message\Body;
 use React\Promise;
 use Clue\React\Buzz\Browser;
-use Clue\React\Buzz\Message\Request;
+use Psr\Http\Message\RequestInterface;
+use RingCentral\Psr7\Response;
 
 class ClientTest extends TestCase
 {
@@ -36,7 +35,7 @@ class ClientTest extends TestCase
 
     public function testFetchFile()
     {
-        $response = new Response('HTTP/1.0', 200, 'OK', array(), new Body('# hello'));
+        $response = new Response(200, array(), '# hello', '1.0', 'OK');
 
         $this->expectRequest($this->uri . 'README.md?view=co')->will($this->returnValue(Promise\resolve($response)));
 
@@ -112,7 +111,7 @@ class ClientTest extends TestCase
     {
         $that = $this;
 
-        return $this->sender->expects($this->once())->method('send')->with($this->callback(function (Request $request) use ($that, $uri) {
+        return $this->sender->expects($this->once())->method('send')->with($this->callback(function (RequestInterface $request) use ($that, $uri) {
             $that->assertEquals('GET', $request->getMethod());
             $that->assertEquals($uri, $request->getUri());
 

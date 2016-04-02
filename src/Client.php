@@ -7,7 +7,7 @@ use UnderflowException;
 use SimpleXMLElement;
 use InvalidArgumentException;
 use Clue\React\Buzz\Browser;
-use Clue\React\Buzz\Message\Response;
+use Psr\Http\Message\ResponseInterface;
 use React\Promise;
 use Clue\React\ViewVcApi\Io\Parser;
 use Clue\React\ViewVcApi\Io\Loader;
@@ -156,7 +156,7 @@ class Client
     private function fetch($url)
     {
         return $this->browser->get($url)->then(
-            function (Response $response) {
+            function (ResponseInterface $response) {
                 return (string)$response->getBody();
             },
             function ($error) {
