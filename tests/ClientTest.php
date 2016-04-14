@@ -44,6 +44,25 @@ class ClientTest extends TestCase
         $this->expectPromiseResolveWith('# hello', $promise);
     }
 
+    public function testFetchFileStream()
+    {
+        $response = new Response(200, array(), '# hello', '1.0', 'OK');
+
+        $this->expectRequest($this->uri . 'README.md?view=co')->will($this->returnValue(Promise\reject()));
+
+        $stream = $this->client->fetchFileStream('README.md');
+
+        $this->assertInstanceOf('React\Stream\ReadableStreamInterface', $stream);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testInvalidFileStream()
+    {
+        $this->client->fetchFileStream('invalid/');
+    }
+
     public function testFetchFileExcessiveSlashesAreIgnored()
     {
         $this->expectRequest($this->uri . 'README.md?view=co')->will($this->returnValue(Promise\reject()));

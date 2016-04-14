@@ -20,7 +20,8 @@
         "clue/buzz-react": "^0.5",
         "ext-simplexml": "*",
         "neitanod/forceutf8": "~1.4",
-        "rize/uri-template": "^0.3"
+        "rize/uri-template": "^0.3",
+        "clue/promise-stream-react": "^0.1"
     },
     "require-dev": {
         "clue/block-react": "~0.3.0"

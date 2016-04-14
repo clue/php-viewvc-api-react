@@ -111,6 +111,40 @@ try {
 
 Refer to [clue/block-react](https://github.com/clue/php-block-react#readme) for more details.
 
+#### Streaming
+
+The following API endpoint resolves with the file contents as a string:
+
+```php
+$client->fetchFile($path);
+````
+
+Keep in mind that this means the whole string has to be kept in memory.
+This is easy to get started and works reasonably well for smaller files.
+
+For bigger files it's usually a better idea to use a streaming approach,
+where only small chunks have to be kept in memory.
+This works for (any number of) files of arbitrary sizes.
+
+The following API endpoint complements the default Promise-based API and returns
+an instance implementing `ReadableStreamInterface` instead:
+
+```php
+$stream = $client->fetchFileStream($path);
+
+$stream->on('data', function ($chunk) {
+    echo $chunk;
+});
+
+$stream->on('error', function (Exception $error) {
+    echo 'Error: ' . $error->getMessage() . PHP_EOL;
+});
+
+$stream->on('close', function () {
+    echo '[DONE]' . PHP_EOL;
+});
+```
+
 ## Install
 
 The recommended way to install this library is [through composer](http://getcomposer.org). [New to composer?](http://getcomposer.org/doc/00-intro.md)
