@@ -4,6 +4,7 @@ use Clue\React\ViewVcApi\Client;
 use React\EventLoop\Factory as LoopFactory;
 use Clue\React\Buzz\Browser;
 use Clue\React\Block;
+use Clue\React\Promise\Stream;
 
 class FunctionalApacheClientTest extends TestCase
 {
@@ -37,6 +38,17 @@ class FunctionalApacheClientTest extends TestCase
 
         $promise = $this->viewvc->fetchFile($file, $revision);
         $recipe = Block\await($promise, $this->loop);
+
+        $this->assertStringStartsWith('/*', $recipe);
+    }
+
+    public function testFetchFileStream()
+    {
+        $file = 'jakarta/ecs/tags/V1_0/src/java/org/apache/ecs/AlignType.java';
+        $revision = '168703';
+
+        $promise = $this->viewvc->fetchFileStream($file, $revision);
+        $recipe = Block\await(Stream\buffer($promise), $this->loop);
 
         $this->assertStringStartsWith('/*', $recipe);
     }

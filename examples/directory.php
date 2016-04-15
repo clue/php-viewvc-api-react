@@ -3,6 +3,7 @@
 use Clue\React\ViewVcApi\Client;
 use React\EventLoop\Factory as LoopFactory;
 use Clue\React\Buzz\Browser;
+use React\Stream\Stream;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -31,7 +32,17 @@ $client = new Client($browser->withBase($url));
 if (substr($path, -1) === '/') {
     $client->fetchDirectory($path, $revision)->then('print_r', 'printf');
 } else {
-    $client->fetchFile($path, $revision)->then('print_r', 'printf');
+    //$client->fetchFile($path, $revision)->then('print_r', 'printf');
+
+    $stream = $client->fetchFileStream($path, $revision);
+
+    // any errors
+    $stream->on('error', 'printf');
+
+    // pipe stream into STDOUT
+    $out = new Stream(STDOUT, $loop);
+    $out->pause();
+    $stream->pipe($out);
 }
 
 $loop->run();

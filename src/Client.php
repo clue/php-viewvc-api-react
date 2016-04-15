@@ -12,6 +12,7 @@ use React\Promise;
 use Clue\React\ViewVcApi\Io\Parser;
 use Clue\React\ViewVcApi\Io\Loader;
 use Rize\UriTemplate;
+use Clue\React\Promise\Stream;
 
 class Client
 {
@@ -62,6 +63,46 @@ class Client
                     'pathrev' => $revision
                 )
             )
+        );
+    }
+
+    /**
+     * Reads the file contents of the given file path as a readable stream
+     *
+     * This works for files of arbitrary sizes as only small chunks have to
+     * be kept in memory. The resulting stream is a well-behaving readable stream
+     * that will emit the normal stream events.
+     *
+     * @param string      $path
+     * @param string|null $revision
+     * @return ReadableStreamInterface
+     * @throws InvalidArgumentException
+     * @see self::fetchFile()
+     */
+    public function fetchFileStream($path, $revision = null)
+    {
+        if (substr($path, -1) === '/') {
+            throw new InvalidArgumentException('File path MUST NOT end with trailing slash');
+        }
+
+        // TODO: fetching a directory redirects to path with trailing slash
+        // TODO: status returns 200 OK, but displays an error message anyways..
+        // TODO: see not-a-file.html
+        // TODO: reject all paths with trailing slashes
+
+        return Stream\unwrapReadable(
+            $this->browser->withOptions(array('streaming' => true))->get(
+                $this->uri->expand(
+                    '{+path}?view=co{&pathrev}',
+                    array(
+                        'path' => $path,
+                        'pathrev' => $revision
+                    )
+                )
+            )->then(function (ResponseInterface $response) {
+                // the body implements ReadableStreamInterface, so let's just return this to the unwrapper
+                return $response->getBody();
+            })
         );
     }
 
