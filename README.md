@@ -2,6 +2,18 @@
 
 Simple, async API-like access to your [ViewVC](http://viewvc.org/) web interface (Subversion/CVS browser), built on top of [React PHP](http://reactphp.org/).
 
+**Table of Contents**
+
+* [Quickstart example](#quickstart-example)
+* [Usage](#usage)
+  * [Client](#client)
+    * [Actions](#actions)
+    * [Promises](#promises)
+    * [Blocking](#blocking)
+    * [Streaming](#streaming)
+* [Install](#install)
+* [License](#license)
+
 ## Quickstart example
 
 Once [installed](#install), you can use the following code to fetch a directory
