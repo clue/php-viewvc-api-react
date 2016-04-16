@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.4.0 (2016-04-16)
+
+* Feature: Add streaming API for fetching larger files
+  (#20 by @clue)
+
+  ```php
+$stream = $client->fetchFileStream($path);
+
+$stream->on('data', function ($chunk) {
+    echo $chunk;
+});
+
+$stream->on('error', function (Exception $error) {
+    echo 'Error: ' . $error->getMessage() . PHP_EOL;
+});
+
+$stream->on('close', function () {
+    echo '[DONE]' . PHP_EOL;
+});
+```
+
+* Update dependencies, more SOLID code base
+
 ## 0.3.0 (2015-09-04)
 
 * Feature / BC break: Build properly escaped URIs via Browser
