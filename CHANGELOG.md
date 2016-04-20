@@ -6,20 +6,20 @@
   (#20 by @clue)
 
   ```php
-$stream = $client->fetchFileStream($path);
-
-$stream->on('data', function ($chunk) {
-    echo $chunk;
-});
-
-$stream->on('error', function (Exception $error) {
-    echo 'Error: ' . $error->getMessage() . PHP_EOL;
-});
-
-$stream->on('close', function () {
-    echo '[DONE]' . PHP_EOL;
-});
-```
+  $stream = $client->fetchFileStream($path);
+  
+  $stream->on('data', function ($chunk) {
+      echo $chunk;
+  });
+  
+  $stream->on('error', function (Exception $error) {
+      echo 'Error: ' . $error->getMessage() . PHP_EOL;
+  });
+  
+  $stream->on('close', function () {
+      echo '[DONE]' . PHP_EOL;
+  });
+  ```
 
 * Update dependencies, more SOLID code base
 
@@ -29,12 +29,12 @@ $stream->on('close', function () {
   ([#17](https://github.com/clue/php-viewvc-api-react/pull/17))
 
   ```php
-// old
-$client = new Client($uri, $browser);
-
-// new
-$client = new Client($browser->withBase($uri));
-```
+  // old
+  $client = new Client($uri, $browser);
+  
+  // new
+  $client = new Client($browser->withBase($uri));
+  ```
 
 * Update dependencies, more SOLID code base
 
